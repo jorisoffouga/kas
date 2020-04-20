@@ -65,6 +65,10 @@ class Shell:
         sh_prs.add_argument('-c', '--command',
                             help='Run command',
                             default='')
+        sh_prs.add_argument('-b', '--build_dir',
+                             help='Select build directory',
+                             default='build')
+
 
     def run(self, args):
         """
@@ -74,7 +78,7 @@ class Shell:
         if args.cmd != 'shell':
             return False
 
-        ctx = create_global_context()
+        ctx = create_global_context(args.build_dir)
         ctx.config = Config(args.config, None, None)
 
         macro = Macro()

@@ -64,6 +64,9 @@ class Build:
                              help='Select target to build')
         bld_psr.add_argument('-c', '--cmd', '--task', dest='task',
                              help='Select which task should be executed')
+        bld_psr.add_argument('-b', '--build_dir',
+                             help='Select build directory',
+                             default='build')
         bld_psr.add_argument('--skip',
                              help='Skip build steps',
                              default=[])
@@ -76,7 +79,7 @@ class Build:
         if args.cmd != 'build':
             return False
 
-        ctx = create_global_context()
+        ctx = create_global_context(args.build_dir)
         ctx.config = Config(args.config, args.target, args.task)
 
         macro = Macro()

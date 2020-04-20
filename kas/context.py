@@ -50,12 +50,12 @@ except ImportError:
 __context__ = None
 
 
-def create_global_context():
+def create_global_context(build_dir):
     """
         Creates global context as singleton.
     """
     global __context__
-    __context__ = Context()
+    __context__ = Context(build_dir)
     return __context__
 
 
@@ -70,9 +70,10 @@ class Context:
     """
         Implements the kas build context.
     """
-    def __init__(self):
+    def __init__(self, build_dir):
         self.__kas_work_dir = os.environ.get('KAS_WORK_DIR', os.getcwd())
         self.__kas_repo_ref_dir = os.environ.get('KAS_REPO_REF_DIR', None)
+        self.__kas_build_dir = build_dir
         self.setup_initial_environ()
         self.keep_config = False
         self.config = None
@@ -110,7 +111,7 @@ class Context:
         """
             The path to the build directory
         """
-        return os.path.join(self.__kas_work_dir, 'build')
+        return os.path.join(self.__kas_work_dir, self.__kas_build_dir)
 
     @property
     def kas_work_dir(self):
